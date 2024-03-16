@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.Auto_Drive_Command;
 import frc.robot.commands.bumpNote_Command;
 import frc.robot.commands.defaultStickDrive_Command;
 import frc.robot.commands.liftControl_Command;
@@ -42,13 +43,15 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driveTrain_subsystem.setDefaultCommand(new defaultStickDrive_Command(m_driveTrain_subsystem, controller));
-    
-    //BROKEN BUILD
     m_lift_subsystem.setDefaultCommand(new liftControl_Command(m_lift_subsystem, controller));
 
     controller.a().onTrue(new shootSpeaker_Command(m_shooter_subsystem, m_intake_subsystem, controller));
     controller.x().onTrue(new pickupNote_Command(m_intake_subsystem, controller));
     controller.b().onTrue(new shootAmp_Command(m_intake_subsystem, m_shooter_subsystem, controller));
     controller.y().onTrue(new bumpNote_Command(m_shooter_subsystem));
+  }
+
+  public Auto_Drive_Command getAutoCommand() {
+    return new Auto_Drive_Command(m_driveTrain_subsystem);
   }
 }

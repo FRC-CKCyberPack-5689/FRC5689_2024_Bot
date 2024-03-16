@@ -40,6 +40,7 @@ public class lift_subsystem extends SubsystemBase {
     pid.setD(RMap.liftD);
     pid.setFF(RMap.liftFF);
     pid.setOutputRange(RMap.lift_PID_Output_Min, RMap.lift_PID_Output_Max);
+    
   }
 
   @Override

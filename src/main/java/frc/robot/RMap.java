@@ -49,4 +49,8 @@ public class RMap {
     public static final double shooter_PID_Output_Min = -1.00;
     public static final double shooter_PID_Output_Max = 0;
     public static final double shooterNoteBumpAmt = 1.5;
+
+    //Autonomous Drive Parameters
+    public static final double autoDriveTime = 1;
+    public static final double autoDriveMaxSpeed = 0.10;
 }
