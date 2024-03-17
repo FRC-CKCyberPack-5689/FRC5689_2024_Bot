@@ -34,7 +34,7 @@ public class RMap {
     public static final int liftSystemCurrentLimit = 80;
     public static final double liftMaxHeight = 38;
 
-    public static final double liftP = 0.08;
+    public static final double liftP = 0.09;
     public static final double liftI = 0.00;
     public static final double liftD = 0.00;
     public static final double liftFF = 0.00;
@@ -51,6 +51,9 @@ public class RMap {
     public static final double shooterNoteBumpAmt = 1.5;
 
     //Autonomous Drive Parameters
-    public static final double autoDriveTime = 1;
-    public static final double autoDriveMaxSpeed = 0.10;
+    public static final double autoDriveTime = 6;
+    public static final double autoDriveSpeed = 0.1;
+
+    //Autonomous Shoot Parameters
+    public static final double shooterTime = 1;
 }

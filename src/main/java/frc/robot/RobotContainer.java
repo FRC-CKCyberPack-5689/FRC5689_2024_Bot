@@ -6,8 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Auto_Drive_Command;
+import frc.robot.commands.Auto_Shoot_Command;
 import frc.robot.commands.bumpNote_Command;
 import frc.robot.commands.defaultStickDrive_Command;
 import frc.robot.commands.liftControl_Command;
@@ -25,6 +29,9 @@ public class RobotContainer {
   private shooter_subsystem m_shooter_subsystem;
   private intake_subsystem m_intake_subsystem;
   private lift_subsystem m_lift_subsystem;
+  private SendableChooser<Command> chooser;
+  private Auto_Drive_Command auto_Drive_Command;
+  private Auto_Shoot_Command auto_Shoot_Command;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -33,9 +40,19 @@ public class RobotContainer {
     m_shooter_subsystem = new shooter_subsystem();
     m_intake_subsystem = new intake_subsystem();
     m_lift_subsystem = new lift_subsystem();
+
+    auto_Drive_Command = new Auto_Drive_Command(m_driveTrain_subsystem);
+    auto_Shoot_Command = new Auto_Shoot_Command(m_shooter_subsystem, m_driveTrain_subsystem, m_intake_subsystem, controller);
+
     UsbCamera camera = CameraServer.startAutomaticCapture();
-    camera.setResolution(1280, 720);
+    camera.setResolution(320, 180);
     camera.setFPS(30);
+
+    chooser = new SendableChooser<>();
+    chooser.setDefaultOption("None", null);
+    chooser.addOption("drive away", auto_Drive_Command);
+    chooser.addOption("shoot away", auto_Shoot_Command);
+    SmartDashboard.putData(chooser);
 
     // Configure the trigger bindings
     configureBindings();
@@ -45,13 +62,13 @@ public class RobotContainer {
     m_driveTrain_subsystem.setDefaultCommand(new defaultStickDrive_Command(m_driveTrain_subsystem, controller));
     m_lift_subsystem.setDefaultCommand(new liftControl_Command(m_lift_subsystem, controller));
 
-    controller.a().onTrue(new shootSpeaker_Command(m_shooter_subsystem, m_intake_subsystem, controller));
+    controller.a().onTrue(new shootSpeaker_Command(m_shooter_subsystem, m_intake_subsystem));
     controller.x().onTrue(new pickupNote_Command(m_intake_subsystem, controller));
     controller.b().onTrue(new shootAmp_Command(m_intake_subsystem, m_shooter_subsystem, controller));
     controller.y().onTrue(new bumpNote_Command(m_shooter_subsystem));
   }
 
-  public Auto_Drive_Command getAutoCommand() {
-    return new Auto_Drive_Command(m_driveTrain_subsystem);
+  public Command getAutoCommand() {
+    return chooser.getSelected();
   }
 }

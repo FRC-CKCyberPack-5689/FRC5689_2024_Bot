@@ -6,21 +6,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RMap;
 import frc.robot.subsystems.intake_subsystem;
 import frc.robot.subsystems.shooter_subsystem;
 
 public class shootSpeaker_Command extends Command {
   private shooter_subsystem m_shooter_subsystem;
   private intake_subsystem m_intake_subsystem;
-  private CommandXboxController controller;
   private boolean cmd_finished;
+  private double initTimeStamp;
   
-  public shootSpeaker_Command(shooter_subsystem shooter_subsystem, intake_subsystem intake_subsystem, CommandXboxController controller) {
+  public shootSpeaker_Command(shooter_subsystem shooter_subsystem, intake_subsystem intake_subsystem) {
     this.m_shooter_subsystem = shooter_subsystem;
     this.m_intake_subsystem = intake_subsystem;
-    this.controller = controller;
-
     addRequirements(this.m_shooter_subsystem);
     addRequirements(this.m_intake_subsystem);
   }
@@ -30,6 +28,9 @@ public class shootSpeaker_Command extends Command {
   public void initialize() {
     m_shooter_subsystem.stopMotors();
     m_intake_subsystem.stopMotor();
+
+    initTimeStamp = Timer.getFPGATimestamp();
+
     cmd_finished = false;
   }
 
@@ -38,11 +39,9 @@ public class shootSpeaker_Command extends Command {
   public void execute() {
     m_shooter_subsystem.setMotorsSpeed(1);
 
-    Timer.delay(0.25);
-
-    m_intake_subsystem.setMotor(1);
-
-    if (!controller.a().getAsBoolean()) {
+    if ((Timer.getFPGATimestamp() - initTimeStamp) <= RMap.shooterTime) {
+      m_intake_subsystem.setMotor(RMap.intakeSpeed);
+    } else {
       cmd_finished = true;
     }
   }

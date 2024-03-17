@@ -39,9 +39,14 @@ public class driveTrain_subsystem extends SubsystemBase {
 
   public void drive(double f, double r, double s) {
     mecanumDrive.driveCartesian(f, s, r);
+    System.out.println(f);
   }
 
   public void stopMotors() {
     mecanumDrive.stopMotor();
+  }
+
+  public void feedWatchDogTimer() {
+    mecanumDrive.feed();
   }
 }
