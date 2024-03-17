@@ -28,7 +28,7 @@ public class RMap {
 
     //Intake & Amp Feed Speeds
     public static final double intakeSpeed = 0.50;
-    public static final double ampSpeed = 0.15;
+    public static final double ampSpeed = 0.2;
 
     //Lift System Parameters
     public static final int liftSystemCurrentLimit = 80;
