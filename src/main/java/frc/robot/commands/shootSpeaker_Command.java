@@ -38,9 +38,11 @@ public class shootSpeaker_Command extends Command {
   @Override
   public void execute() {
     m_shooter_subsystem.setMotorsSpeed(1);
-
     if ((Timer.getFPGATimestamp() - initTimeStamp) <= RMap.shooterTime) {
-      m_intake_subsystem.setMotor(RMap.intakeSpeed);
+      // Waits a certain time before turning on intake to let shooter spin up first
+      if ((Timer.getFPGATimestamp() - initTimeStamp) >= RMap.shooterDelay){
+         m_intake_subsystem.setMotor(RMap.intakeSpeed);
+      }
     } else {
       cmd_finished = true;
     }

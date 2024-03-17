@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto_Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RMap;
@@ -24,13 +24,11 @@ public class Auto_Drive_Command extends Command {
   @Override
   public void initialize() {
     finished = false;
-    System.out.println("CMD START");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("EXEC");
     m_driveTrain.drive(RMap.autoDriveSpeed, 0, 0);
   }
 
