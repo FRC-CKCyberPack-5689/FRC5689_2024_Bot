@@ -32,6 +32,7 @@ public class RobotContainer {
   private SendableChooser<Command> chooser;
   private Auto_Drive_Command auto_Drive_Command;
   private Auto_Shoot_Command auto_Shoot_Command;
+  private shootSpeaker_Command shootSpeaker_Command;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,7 +43,8 @@ public class RobotContainer {
     m_lift_subsystem = new lift_subsystem();
 
     auto_Drive_Command = new Auto_Drive_Command(m_driveTrain_subsystem);
-    auto_Shoot_Command = new Auto_Shoot_Command(m_shooter_subsystem, m_driveTrain_subsystem, m_intake_subsystem, controller);
+    auto_Shoot_Command = new Auto_Shoot_Command(m_shooter_subsystem, m_driveTrain_subsystem, m_intake_subsystem);
+    shootSpeaker_Command = new shootSpeaker_Command(m_shooter_subsystem, m_intake_subsystem);
 
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(320, 180);
@@ -50,8 +52,9 @@ public class RobotContainer {
 
     chooser = new SendableChooser<>();
     chooser.setDefaultOption("None", null);
-    chooser.addOption("drive away", auto_Drive_Command);
-    chooser.addOption("shoot away", auto_Shoot_Command);
+    chooser.addOption("Just Drive", auto_Drive_Command.withTimeout(RMap.autoDriveTime));
+    chooser.addOption("Shoot & Drive", auto_Shoot_Command);
+    chooser.addOption("Just Shoot", shootSpeaker_Command);
     SmartDashboard.putData(chooser);
 
     // Configure the trigger bindings

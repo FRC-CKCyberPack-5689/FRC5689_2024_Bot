@@ -24,13 +24,11 @@ public class Auto_Drive_Command extends Command {
   @Override
   public void initialize() {
     finished = false;
-    System.out.println("CMD START");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("EXEC");
     m_driveTrain.drive(RMap.autoDriveSpeed, 0, 0);
   }
 

@@ -35,7 +35,7 @@ public class RMap {
     public static final double liftMaxHeight = 38;
 
     public static final double liftP = 0.09;
-    public static final double liftI = 0.00;
+    public static final double liftI = 0.00003;
     public static final double liftD = 0.00;
     public static final double liftFF = 0.00;
     public static final double lift_PID_Output_Min = -0.5;
@@ -49,10 +49,12 @@ public class RMap {
     public static final double shooter_PID_Output_Min = -1.00;
     public static final double shooter_PID_Output_Max = 0;
     public static final double shooterNoteBumpAmt = 1.5;
+    public static final double shooterDelay = 0.25;
 
     //Autonomous Drive Parameters
     public static final double autoDriveTime = 6;
     public static final double autoDriveSpeed = 0.1;
+    public static final double autoShootAndDriveTime = 6;
 
     //Autonomous Shoot Parameters
     public static final double shooterTime = 1;

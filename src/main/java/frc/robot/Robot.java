@@ -51,7 +51,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    auto_Command.cancel();
+    if (auto_Command != null) {
+      auto_Command.cancel();
+    }
   }
 
   /** This function is called periodically during operator control. */
