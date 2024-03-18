@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RMap;
@@ -15,6 +17,7 @@ import frc.robot.RMap;
 public class driveTrain_subsystem extends SubsystemBase {
   private CANSparkMax frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor;
   private MecanumDrive mecanumDrive;
+  private ADIS16470_IMU gyro;
 
   public driveTrain_subsystem() {
     frontLeftMotor = new CANSparkMax(RMap.frontLeftMotor, MotorType.kBrushless);
@@ -32,6 +35,8 @@ public class driveTrain_subsystem extends SubsystemBase {
 
     mecanumDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
     mecanumDrive.setDeadband(0);
+
+    gyro = new ADIS16470_IMU();
   }
 
   @Override
@@ -39,7 +44,10 @@ public class driveTrain_subsystem extends SubsystemBase {
 
   public void drive(double f, double r, double s) {
     mecanumDrive.driveCartesian(f, s, r);
-    System.out.println(f);
+  }
+
+  public void driveGyro(double f, double r, double s, Rotation2d angle) {
+    mecanumDrive.driveCartesian(f, s, r, angle);
   }
 
   public void stopMotors() {
@@ -48,5 +56,9 @@ public class driveTrain_subsystem extends SubsystemBase {
 
   public void feedWatchDogTimer() {
     mecanumDrive.feed();
+  }
+
+  public ADIS16470_IMU getGyro() {
+    return gyro;
   }
 }

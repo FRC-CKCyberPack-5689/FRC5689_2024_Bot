@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RMap;
@@ -35,7 +37,11 @@ public class defaultStickDrive_Command extends Command {
     speedS = calcuateDriveAxis(controller.getLeftX(), speedS);
     speedR = calcuateDriveAxis(controller.getRightX(), speedR);
 
-    m_driveTrain_subsystem.drive(speedF, speedR, speedS);
+    double radians = m_driveTrain_subsystem.getGyro().getAngle();
+    radians = Units.degreesToRadians(radians);
+
+    // m_driveTrain_subsystem.drive(speedF, speedR, speedS);
+    m_driveTrain_subsystem.driveGyro(speedF, speedR, speedS, new Rotation2d(radians));
   }
 
   @Override
