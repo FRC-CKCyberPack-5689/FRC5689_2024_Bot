@@ -4,6 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.driveTrain_subsystem;
+import frc.robot.subsystems.intake_subsystem;
+import frc.robot.subsystems.lift_subsystem;
+import frc.robot.subsystems.shooter_subsystem;
+
 public class RMap {
     // CAN BUS
     public static final int frontLeftMotor = 2;
@@ -58,4 +65,12 @@ public class RMap {
 
     //Autonomous Shoot Parameters
     public static final double shooterTime = 1;
+
+    //Subsystems & Global Objects
+    public static ADIS16470_IMU gyro;
+    public static CommandXboxController controller;
+    public static driveTrain_subsystem m_driveTrain_subsystem;
+    public static shooter_subsystem m_shooter_subsystem;
+    public static intake_subsystem m_intake_subsystem;
+    public static lift_subsystem m_lift_subsystem; 
 }

@@ -16,9 +16,10 @@ public class shootSpeaker_Command extends Command {
   private boolean cmd_finished;
   private double initTimeStamp;
   
-  public shootSpeaker_Command(shooter_subsystem shooter_subsystem, intake_subsystem intake_subsystem) {
-    this.m_shooter_subsystem = shooter_subsystem;
-    this.m_intake_subsystem = intake_subsystem;
+  public shootSpeaker_Command() {
+    this.m_shooter_subsystem = RMap.m_shooter_subsystem;
+    this.m_intake_subsystem = RMap.m_intake_subsystem;
+
     addRequirements(this.m_shooter_subsystem);
     addRequirements(this.m_intake_subsystem);
   }

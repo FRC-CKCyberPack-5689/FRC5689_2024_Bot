@@ -13,8 +13,8 @@ public class bumpNote_Command extends Command {
   private shooter_subsystem m_shooter;
   private boolean cmd_finished;
 
-  public bumpNote_Command(shooter_subsystem shooter) {
-    this.m_shooter = shooter;
+  public bumpNote_Command() {
+    this.m_shooter = RMap.m_shooter_subsystem;
 
     addRequirements(m_shooter);
   }

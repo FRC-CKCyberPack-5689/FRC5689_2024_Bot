@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RMap;
 import frc.robot.subsystems.driveTrain_subsystem;
 
-public class defaultStickDrive_Command extends Command {
+public class teleDrive_Command extends Command {
   private driveTrain_subsystem m_driveTrain_subsystem;
   private CommandXboxController controller;
   private double speedF, speedR, speedS;
 
-  public defaultStickDrive_Command(driveTrain_subsystem system, CommandXboxController controller) {
-    this.m_driveTrain_subsystem = system;
-    this.controller = controller;
+  public teleDrive_Command() {
+    this.m_driveTrain_subsystem = RMap.m_driveTrain_subsystem;
+    this.controller = RMap.controller;
 
     addRequirements(this.m_driveTrain_subsystem);
   }
@@ -37,7 +37,7 @@ public class defaultStickDrive_Command extends Command {
     speedS = calcuateDriveAxis(controller.getLeftX(), speedS);
     speedR = calcuateDriveAxis(controller.getRightX(), speedR);
 
-    double radians = m_driveTrain_subsystem.getGyro().getAngle();
+    double radians = -m_driveTrain_subsystem.getGyro().getAngle();
     radians = Units.degreesToRadians(radians);
 
     // m_driveTrain_subsystem.drive(speedF, speedR, speedS);
@@ -49,9 +49,15 @@ public class defaultStickDrive_Command extends Command {
 
   @Override
   public boolean isFinished() {
-    return false; //This Command is the default and must never finish
+    return false; //This command is the default and must never finish
   }
 
+
+  /**
+   * @param input Controller stick input
+   * @param currentSpeed Current axis speed of robot
+   * @return Ramped and cliped motor speed 
+   */
   private double calcuateDriveAxis(double input, double currentSpeed) {
     double i = Math.abs(input);
     double c = currentSpeed;

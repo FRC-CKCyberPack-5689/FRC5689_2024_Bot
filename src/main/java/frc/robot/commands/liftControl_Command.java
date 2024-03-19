@@ -14,9 +14,9 @@ public class liftControl_Command extends Command {
   private lift_subsystem m_lift_subsystem;
   private CommandXboxController controller;
   
-  public liftControl_Command(lift_subsystem subsystem, CommandXboxController controller) {
-    this.m_lift_subsystem = subsystem;
-    this.controller = controller;
+  public liftControl_Command() {
+    this.m_lift_subsystem = RMap.m_lift_subsystem;
+    this.controller = RMap.controller;
 
     addRequirements(m_lift_subsystem);
   }

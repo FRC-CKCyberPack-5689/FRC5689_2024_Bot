@@ -12,10 +12,10 @@ public class shootAmp_Command extends Command {
     private CommandXboxController controller;
     private boolean cmd_finished;
 
-    public shootAmp_Command(intake_subsystem intake, shooter_subsystem shooter, CommandXboxController controller) {
-        this.m_intake_subsystem = intake;
-        this.m_shooter_subsystem = shooter;
-        this.controller = controller;
+    public shootAmp_Command() {
+        this.m_intake_subsystem = RMap.m_intake_subsystem;
+        this.m_shooter_subsystem = RMap.m_shooter_subsystem;
+        this.controller = RMap.controller;
 
         addRequirements(m_intake_subsystem);
         addRequirements(m_shooter_subsystem);

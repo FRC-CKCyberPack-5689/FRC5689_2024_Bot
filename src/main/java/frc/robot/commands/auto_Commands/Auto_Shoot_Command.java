@@ -7,21 +7,18 @@ package frc.robot.commands.auto_Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RMap;
 import frc.robot.commands.shootSpeaker_Command;
-import frc.robot.subsystems.driveTrain_subsystem;
-import frc.robot.subsystems.intake_subsystem;
-import frc.robot.subsystems.shooter_subsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto_Shoot_Command extends SequentialCommandGroup {
   /** Creates a new Auto_Shoot. */
-  public Auto_Shoot_Command(shooter_subsystem m_shooter_subsystem, driveTrain_subsystem mDriveTrain_subsystem, intake_subsystem mIntake_subsystem) {
+  public Auto_Shoot_Command() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new shootSpeaker_Command(m_shooter_subsystem, mIntake_subsystem).withTimeout(3),
-      new Auto_Drive_Command(mDriveTrain_subsystem).withTimeout(RMap.autoShootAndDriveTime)
+      new shootSpeaker_Command().withTimeout(3),
+      new Auto_Drive_Command().withTimeout(RMap.autoShootAndDriveTime)
     );
   }
 }

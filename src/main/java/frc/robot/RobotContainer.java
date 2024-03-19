@@ -2,9 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-// TODO: Gyro Compensated drive
-// TODO: Field Oriented Control?
-// TODO: More Auto
 // TODO: Implement Auto Shoot, Move Back, Pickup Note, Reverse, Auto Shoot, Leave
 
 package frc.robot;
@@ -16,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.bumpNote_Command;
-import frc.robot.commands.defaultStickDrive_Command;
+import frc.robot.commands.teleDrive_Command;
 import frc.robot.commands.liftControl_Command;
 import frc.robot.commands.pickupNote_Command;
 import frc.robot.commands.shootAmp_Command;
@@ -29,11 +26,6 @@ import frc.robot.subsystems.lift_subsystem;
 import frc.robot.subsystems.shooter_subsystem;
 
 public class RobotContainer {
-  private CommandXboxController controller;
-  private driveTrain_subsystem m_driveTrain_subsystem;
-  private shooter_subsystem m_shooter_subsystem;
-  private intake_subsystem m_intake_subsystem;
-  private lift_subsystem m_lift_subsystem;
   private SendableChooser<Command> chooser;
   private Auto_Drive_Command auto_Drive_Command;
   private Auto_Shoot_Command auto_Shoot_Command;
@@ -41,15 +33,15 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    controller = new CommandXboxController(RMap.driverControllerPort);
-    m_driveTrain_subsystem = new driveTrain_subsystem();
-    m_shooter_subsystem = new shooter_subsystem();
-    m_intake_subsystem = new intake_subsystem();
-    m_lift_subsystem = new lift_subsystem();
+    RMap.controller = new CommandXboxController(RMap.driverControllerPort);
+    RMap.m_driveTrain_subsystem = new driveTrain_subsystem();
+    RMap.m_shooter_subsystem = new shooter_subsystem();
+    RMap.m_intake_subsystem = new intake_subsystem();
+    RMap.m_lift_subsystem = new lift_subsystem();
 
-    auto_Drive_Command = new Auto_Drive_Command(m_driveTrain_subsystem);
-    auto_Shoot_Command = new Auto_Shoot_Command(m_shooter_subsystem, m_driveTrain_subsystem, m_intake_subsystem);
-    shootSpeaker_Command = new shootSpeaker_Command(m_shooter_subsystem, m_intake_subsystem);
+    auto_Drive_Command = new Auto_Drive_Command();
+    auto_Shoot_Command = new Auto_Shoot_Command();
+    shootSpeaker_Command = new shootSpeaker_Command();
 
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(320, 180);
@@ -67,13 +59,13 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_driveTrain_subsystem.setDefaultCommand(new defaultStickDrive_Command(m_driveTrain_subsystem, controller));
-    m_lift_subsystem.setDefaultCommand(new liftControl_Command(m_lift_subsystem, controller));
+    RMap.m_driveTrain_subsystem.setDefaultCommand(new teleDrive_Command());
+    RMap.m_lift_subsystem.setDefaultCommand(new liftControl_Command());
 
-    controller.a().onTrue(new shootSpeaker_Command(m_shooter_subsystem, m_intake_subsystem));
-    controller.x().onTrue(new pickupNote_Command(m_intake_subsystem, controller));
-    controller.b().onTrue(new shootAmp_Command(m_intake_subsystem, m_shooter_subsystem, controller));
-    controller.y().onTrue(new bumpNote_Command(m_shooter_subsystem));
+    RMap.controller.a().onTrue(new shootSpeaker_Command());
+    RMap.controller.x().onTrue(new pickupNote_Command());
+    RMap.controller.b().onTrue(new shootAmp_Command());
+    RMap.controller.y().onTrue(new bumpNote_Command());
   }
 
   public Command getAutoCommand() {

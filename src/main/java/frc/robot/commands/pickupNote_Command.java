@@ -17,9 +17,9 @@ public class pickupNote_Command extends Command {
   private boolean cmd_finished;
   private DigitalInput note_Sensor;
   
-  public pickupNote_Command(intake_subsystem subsystem, CommandXboxController controller) {
-    this.m_intake_subsystem = subsystem;
-    this.controller = controller;
+  public pickupNote_Command() {
+    this.m_intake_subsystem = RMap.m_intake_subsystem;
+    this.controller = RMap.controller;
     this.note_Sensor = new DigitalInput(RMap.noteSensor);
 
     addRequirements(m_intake_subsystem);
