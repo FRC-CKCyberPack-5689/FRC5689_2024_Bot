@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -17,10 +19,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Command auto_Command;
+  private PhotonCamera camera;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    camera = new PhotonCamera("notecam");
   }
 
   @Override
@@ -38,7 +42,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    auto_Command = m_robotContainer.getAutoCommand();
+    auto_Command = m_robotContainer.getAutonomousCommand();
     
     if (auto_Command != null) {
       auto_Command.schedule();  
@@ -62,4 +66,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationInit() {}
+
+  @Override
+  public void testInit() {
+    CommandScheduler.getInstance().cancelAll();
+  }
+
+  @Override
+  public void testPeriodic() {}
 }

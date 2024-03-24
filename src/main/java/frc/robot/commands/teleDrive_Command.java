@@ -6,22 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RMap;
-import frc.robot.subsystems.driveTrain_subsystem;
 
 public class teleDrive_Command extends Command {
-  private driveTrain_subsystem m_driveTrain_subsystem;
-  private CommandXboxController controller;
   private double speedF, speedR, speedS;
+  // private double desiredPosition;
 
   public teleDrive_Command() {
-    this.m_driveTrain_subsystem = RMap.m_driveTrain_subsystem;
-    this.controller = RMap.controller;
-
-    addRequirements(this.m_driveTrain_subsystem);
+    addRequirements(RMap.m_driveTrain_subsystem);
   }
 
   @Override
@@ -29,19 +23,19 @@ public class teleDrive_Command extends Command {
     speedF = 0;
     speedR = 0;
     speedS = 0;
+
+    // desiredPosition = 0;
   }
 
   @Override
   public void execute() {
-    speedF = calcuateDriveAxis(-controller.getLeftY(), speedF);
-    speedS = calcuateDriveAxis(controller.getLeftX(), speedS);
-    speedR = calcuateDriveAxis(controller.getRightX(), speedR);
+    speedF = calcuateDriveAxis(-RMap.controller.getLeftY(), speedF);
+    speedS = calcuateDriveAxis(RMap.controller.getLeftX(), speedS);
+    speedR = calcuateDriveAxis(RMap.controller.getRightX(), speedR);
 
-    double radians = -m_driveTrain_subsystem.getGyro().getAngle();
-    radians = Units.degreesToRadians(radians);
-
-    // m_driveTrain_subsystem.drive(speedF, speedR, speedS);
-    m_driveTrain_subsystem.driveGyro(speedF, speedR, speedS, new Rotation2d(radians));
+    RMap.controller.rightBumper().onTrue(new InstantCommand(() -> RMap.m_driveTrain_subsystem.drive(speedF, speedR, speedS)));
+    RMap.controller.rightBumper().onFalse(new InstantCommand(
+      () -> RMap.m_driveTrain_subsystem.driveGyro(speedF, speedR, speedS, Rotation2d.fromDegrees(-RMap.gyro.getAngle()))));
   }
 
   @Override
@@ -51,7 +45,6 @@ public class teleDrive_Command extends Command {
   public boolean isFinished() {
     return false; //This command is the default and must never finish
   }
-
 
   /**
    * @param input Controller stick input

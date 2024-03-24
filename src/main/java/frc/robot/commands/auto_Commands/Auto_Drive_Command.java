@@ -6,18 +6,15 @@ package frc.robot.commands.auto_Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RMap;
-import frc.robot.subsystems.driveTrain_subsystem;
 
 public class Auto_Drive_Command extends Command {
   /** Creates a new Auto_Drive_Command. */
-  private driveTrain_subsystem m_driveTrain;
   private boolean finished;
 
   public Auto_Drive_Command() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_driveTrain = RMap.m_driveTrain_subsystem;
 
-    addRequirements(this.m_driveTrain);
+    addRequirements(RMap.m_driveTrain_subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,13 +26,13 @@ public class Auto_Drive_Command extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveTrain.drive(RMap.autoDriveSpeed, 0, 0);
+    RMap.m_driveTrain_subsystem.drive(RMap.autoDriveSpeed, 0, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_driveTrain.stopMotors();
+    RMap.m_driveTrain_subsystem.stopMotors();
   }
 
   // Returns true when the command should end.

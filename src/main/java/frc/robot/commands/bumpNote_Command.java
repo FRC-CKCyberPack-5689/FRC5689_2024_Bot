@@ -7,16 +7,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RMap;
-import frc.robot.subsystems.shooter_subsystem;
 
 public class bumpNote_Command extends Command {
-  private shooter_subsystem m_shooter;
   private boolean cmd_finished;
 
   public bumpNote_Command() {
-    this.m_shooter = RMap.m_shooter_subsystem;
 
-    addRequirements(m_shooter);
+    addRequirements(RMap.m_shooter_subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,17 +25,17 @@ public class bumpNote_Command extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.resetEncoder();
-    m_shooter.closedLoopControl(-RMap.shooterNoteBumpAmt);
+    RMap.m_shooter_subsystem.resetEncoder();
+    RMap.m_shooter_subsystem.closedLoopControl(-RMap.shooterNoteBumpAmt);
     Timer.delay(0.5);
-    m_shooter.stopMotors();
+    RMap.m_shooter_subsystem.stopMotors();
     cmd_finished = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopMotors();
+    RMap.m_shooter_subsystem.stopMotors();
   }
 
   // Returns true when the command should end.
