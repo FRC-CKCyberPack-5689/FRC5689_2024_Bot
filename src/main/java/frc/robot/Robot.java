@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import org.photonvision.PhotonCamera;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,12 +17,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Command auto_Command;
-  private PhotonCamera camera;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    camera = new PhotonCamera("notecam");
   }
 
   @Override
@@ -75,3 +71,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 }
+
+/*
+ * Note to the right is positive error
+ * Note to the left is negative error
+ * 0deg is center of camera
+ */

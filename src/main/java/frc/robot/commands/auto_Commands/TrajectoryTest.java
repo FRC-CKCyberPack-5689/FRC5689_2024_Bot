@@ -29,8 +29,8 @@ public class TrajectoryTest extends SequentialCommandGroup {
     Trajectory testTrajectory =
       TrajectoryGenerator.generateTrajectory(
         new Pose2d(0, 0, new Rotation2d()),
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        new Pose2d(3, 0, new Rotation2d()),
+        List.of(new Translation2d(1, 1)),
+        new Pose2d(2, 0, new Rotation2d()),
         config);
 
     MecanumControllerCommand controllerCommand =
@@ -52,9 +52,17 @@ public class TrajectoryTest extends SequentialCommandGroup {
         RMap.m_driveTrain_subsystem);
 
     addCommands(
-      new InstantCommand(() -> RMap.m_driveTrain_subsystem.resetOdometry(testTrajectory.getInitialPose())),
+      new InstantCommand(() -> {
+        RMap.m_driveTrain_subsystem.resetOdometry(testTrajectory.getInitialPose());
+        RMap.m_driveTrain_subsystem.setSafety(false);
+      }),
       controllerCommand,
-      new InstantCommand(() -> RMap.m_driveTrain_subsystem.stopMotors())
+      new InstantCommand(() -> {
+        RMap.m_driveTrain_subsystem.stopMotors();
+        RMap.m_driveTrain_subsystem.setSafety(true);
+      })
     );
+
+    addRequirements(RMap.m_driveTrain_subsystem);
   }
 }

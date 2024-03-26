@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
@@ -73,7 +75,9 @@ public class RMap {
 
     //Build Attributes
     public static final double driveTrainGearRatio = 12.75;
-    public static final double wheelCirc = (2.0 * Math.PI * Units.inchesToMeters(4));
+    public static final double wheelDiameterMeters = Units.inchesToMeters(8);
+    public static final double wheelCircMeters = (Math.PI * wheelDiameterMeters);
+    public static final double wheelVelocityConversionFactor = (Math.PI * wheelDiameterMeters / 60.0);
 
     //Subsystems & Global Objects
     public static ADIS16470_IMU gyro;
@@ -82,6 +86,7 @@ public class RMap {
     public static shooter_subsystem m_shooter_subsystem;
     public static intake_subsystem m_intake_subsystem;
     public static lift_subsystem m_lift_subsystem;
+    public static PhotonCamera noteCamera;
 
     public static final double kTrackWidth = Units.inchesToMeters(20.25);
     public static final double kTrackBase = Units.inchesToMeters(23.0);

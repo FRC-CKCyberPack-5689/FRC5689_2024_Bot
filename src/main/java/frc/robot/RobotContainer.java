@@ -6,6 +6,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.cameraserver.CameraServer;
 // import edu.wpi.first.cameraserver.CameraServer;
 // import edu.wpi.first.cscore.UsbCamera;
@@ -20,6 +22,7 @@ import frc.robot.commands.liftControl_Command;
 import frc.robot.commands.pickupNote_Command;
 import frc.robot.commands.shootAmp_Command;
 import frc.robot.commands.shootSpeaker_Command;
+import frc.robot.commands.auto_Commands.AutoPickupNoteDrive;
 import frc.robot.commands.auto_Commands.Auto_Drive_Command;
 import frc.robot.commands.auto_Commands.Auto_Shoot_Command;
 import frc.robot.commands.auto_Commands.TrajectoryTest;
@@ -42,10 +45,12 @@ public class RobotContainer {
     RMap.m_shooter_subsystem = new shooter_subsystem();
     RMap.m_intake_subsystem = new intake_subsystem();
     RMap.m_lift_subsystem = new lift_subsystem();
+    RMap.noteCamera = new PhotonCamera("notecam");
 
     auto_Drive_Command = new Auto_Drive_Command();
     auto_Shoot_Command = new Auto_Shoot_Command();
     shootSpeaker_Command = new shootSpeaker_Command();
+    test = new TrajectoryTest();
 
     CameraServer.addServer("http://photonvision.local/?action=stream", 1183);
 
@@ -72,6 +77,9 @@ public class RobotContainer {
 
     RMap.controller.leftBumper().onTrue(new InstantCommand(() -> RMap.m_driveTrain_subsystem.setMaximumOutput(0.5)));
     RMap.controller.leftBumper().onFalse(new InstantCommand(() -> RMap.m_driveTrain_subsystem.setMaximumOutput(1.0)));
+
+    RMap.controller.rightTrigger().whileTrue(new AutoPickupNoteDrive());
+    RMap.controller.start().onTrue(new InstantCommand(() -> RMap.gyro.reset()));
   }
 
   public Command getAutonomousCommand() {

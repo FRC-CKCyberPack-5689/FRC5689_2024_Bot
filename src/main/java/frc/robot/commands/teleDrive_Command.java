@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RMap;
 
 public class teleDrive_Command extends Command {
@@ -23,8 +22,6 @@ public class teleDrive_Command extends Command {
     speedF = 0;
     speedR = 0;
     speedS = 0;
-
-    // desiredPosition = 0;
   }
 
   @Override
@@ -33,9 +30,7 @@ public class teleDrive_Command extends Command {
     speedS = calcuateDriveAxis(RMap.controller.getLeftX(), speedS);
     speedR = calcuateDriveAxis(RMap.controller.getRightX(), speedR);
 
-    RMap.controller.rightBumper().onTrue(new InstantCommand(() -> RMap.m_driveTrain_subsystem.drive(speedF, speedR, speedS)));
-    RMap.controller.rightBumper().onFalse(new InstantCommand(
-      () -> RMap.m_driveTrain_subsystem.driveGyro(speedF, speedR, speedS, Rotation2d.fromDegrees(-RMap.gyro.getAngle()))));
+    RMap.m_driveTrain_subsystem.driveGyro(speedF, speedR, speedS, Rotation2d.fromDegrees(-RMap.gyro.getAngle()));
   }
 
   @Override

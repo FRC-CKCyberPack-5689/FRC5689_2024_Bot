@@ -50,10 +50,15 @@ public class driveTrain_subsystem extends SubsystemBase {
     rL_encoder = rearLeftMotor.getEncoder();
     rR_encoder = rearRightMotor.getEncoder();
 
-    fL_encoder.setPositionConversionFactor(RMap.wheelCirc / RMap.driveTrainGearRatio);
-    fR_encoder.setPositionConversionFactor(RMap.wheelCirc / RMap.driveTrainGearRatio);
-    rL_encoder.setPositionConversionFactor(RMap.wheelCirc / RMap.driveTrainGearRatio);
-    rR_encoder.setPositionConversionFactor(RMap.wheelCirc / RMap.driveTrainGearRatio);
+    fL_encoder.setPositionConversionFactor(RMap.wheelCircMeters / RMap.driveTrainGearRatio);
+    fR_encoder.setPositionConversionFactor(RMap.wheelCircMeters / RMap.driveTrainGearRatio);
+    rL_encoder.setPositionConversionFactor(RMap.wheelCircMeters / RMap.driveTrainGearRatio);
+    rR_encoder.setPositionConversionFactor(RMap.wheelCircMeters / RMap.driveTrainGearRatio);
+
+    fL_encoder.setVelocityConversionFactor(RMap.wheelVelocityConversionFactor / RMap.driveTrainGearRatio);
+    fR_encoder.setVelocityConversionFactor(RMap.wheelVelocityConversionFactor / RMap.driveTrainGearRatio);
+    rL_encoder.setVelocityConversionFactor(RMap.wheelVelocityConversionFactor / RMap.driveTrainGearRatio);
+    rR_encoder.setVelocityConversionFactor(RMap.wheelVelocityConversionFactor / RMap.driveTrainGearRatio);
 
     resetEncoders();
 
@@ -68,6 +73,9 @@ public class driveTrain_subsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Angle", getHeading());
 
     odometry.update(Rotation2d.fromDegrees(getHeading()), getWheelPosition());
+
+    SmartDashboard.putNumber("TESTING", fL_encoder.getVelocity());
+    SmartDashboard.putNumber("TESTING DISTANCE", fL_encoder.getPosition());
   }
 
   public void drive(double f, double r, double s) {
@@ -134,5 +142,9 @@ public class driveTrain_subsystem extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     odometry.resetPosition(Rotation2d.fromDegrees(getHeading()), getWheelPosition(), pose);
+  }
+
+  public void setSafety(boolean x) {
+    mecanumDrive.setSafetyEnabled(x);
   }
 }
