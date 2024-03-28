@@ -25,7 +25,7 @@ import frc.robot.commands.shootSpeaker_Command;
 import frc.robot.commands.auto_Commands.AutoPickupNoteDrive;
 import frc.robot.commands.auto_Commands.Auto_Drive_Command;
 import frc.robot.commands.auto_Commands.Auto_Shoot_Command;
-import frc.robot.commands.auto_Commands.TrajectoryTest;
+import frc.robot.commands.auto_Commands.Trajectory_Based_2_Note_And_Leave_Auto;
 import frc.robot.subsystems.driveTrain_subsystem;
 import frc.robot.subsystems.intake_subsystem;
 import frc.robot.subsystems.lift_subsystem;
@@ -36,7 +36,7 @@ public class RobotContainer {
   private Auto_Drive_Command auto_Drive_Command;
   private Auto_Shoot_Command auto_Shoot_Command;
   private shootSpeaker_Command shootSpeaker_Command;
-  private TrajectoryTest test;
+  private Trajectory_Based_2_Note_And_Leave_Auto test2;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,7 +50,7 @@ public class RobotContainer {
     auto_Drive_Command = new Auto_Drive_Command();
     auto_Shoot_Command = new Auto_Shoot_Command();
     shootSpeaker_Command = new shootSpeaker_Command();
-    test = new TrajectoryTest();
+    test2 = new Trajectory_Based_2_Note_And_Leave_Auto();
 
     CameraServer.addServer("http://photonvision.local/?action=stream", 1183);
 
@@ -59,7 +59,7 @@ public class RobotContainer {
     chooser.addOption("Just Drive", auto_Drive_Command.withTimeout(RMap.autoDriveTime));
     chooser.addOption("Shoot & Drive", auto_Shoot_Command);
     chooser.addOption("Just Shoot", shootSpeaker_Command);
-    chooser.addOption("EXPERIMENTAL TRAJECTORY", test);
+    chooser.addOption("2 Note Auto & Leave", test2);
     SmartDashboard.putData(chooser);
 
     // Configure the trigger bindings
