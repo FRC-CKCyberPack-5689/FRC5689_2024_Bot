@@ -46,7 +46,7 @@ public class RMap {
 
     //Lift System Parameters
     public static final int liftSystemCurrentLimit = 80;
-    public static final double liftMaxHeight = 38;
+    public static final double liftMaxHeight = 35;
 
     public static final double liftP = 0.09;
     public static final double liftI = 0.00003;

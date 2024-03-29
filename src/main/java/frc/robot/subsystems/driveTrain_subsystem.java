@@ -73,9 +73,6 @@ public class driveTrain_subsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Angle", getHeading());
 
     odometry.update(Rotation2d.fromDegrees(getHeading()), getWheelPosition());
-
-    SmartDashboard.putNumber("TESTING", fL_encoder.getVelocity());
-    SmartDashboard.putNumber("TESTING DISTANCE", fL_encoder.getPosition());
   }
 
   public void drive(double f, double r, double s) {
