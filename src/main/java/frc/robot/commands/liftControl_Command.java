@@ -11,6 +11,7 @@ import frc.robot.RMap;
 
 public class liftControl_Command extends Command {
   private CommandXboxController controller;
+  private boolean secondLockpin;
   
   public liftControl_Command() {
     this.controller = RMap.controller;
@@ -20,7 +21,9 @@ public class liftControl_Command extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    secondLockpin = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -29,6 +32,14 @@ public class liftControl_Command extends Command {
     i = MathUtil.applyDeadband(i, 0.02);
     i *= RMap.liftMaxHeight;
 
+    if (i >= 0.5 && !secondLockpin) {
+      secondLockpin = true;
+    }
+
+    if (secondLockpin && i < 0.5) {
+      i = RMap.liftLockHeight;
+    } 
+    
     RMap.m_lift_subsystem.setPosition(i);
   }
 

@@ -71,9 +71,3 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 }
-
-/*
- * Note to the right is positive error
- * Note to the left is negative error
- * 0deg is center of camera
- */

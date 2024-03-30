@@ -32,7 +32,7 @@ public class RobotContainer {
   private Auto_Drive_Command auto_Drive_Command;
   private Auto_Shoot_Command auto_Shoot_Command;
   private shootSpeaker_Command shootSpeaker_Command;
-  private Trajectory_Based_2_Note_And_Leave_Auto test2;
+  private Trajectory_Based_2_Note_And_Leave_Auto twoNoteAuto;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,7 +46,7 @@ public class RobotContainer {
     auto_Drive_Command = new Auto_Drive_Command();
     auto_Shoot_Command = new Auto_Shoot_Command();
     shootSpeaker_Command = new shootSpeaker_Command();
-    test2 = new Trajectory_Based_2_Note_And_Leave_Auto();
+    twoNoteAuto = new Trajectory_Based_2_Note_And_Leave_Auto();
 
     CameraServer.addServer("http://photonvision.local/?action=stream", 1183);
 
@@ -55,7 +55,7 @@ public class RobotContainer {
     chooser.addOption("Just Drive", auto_Drive_Command.withTimeout(RMap.autoDriveTime));
     chooser.addOption("Shoot & Drive", auto_Shoot_Command);
     chooser.addOption("Just Shoot", shootSpeaker_Command);
-    chooser.addOption("2 Note Auto & Leave", test2);
+    chooser.addOption("2 Note Auto & Leave", twoNoteAuto);
     SmartDashboard.putData(chooser);
 
     // Configure the trigger bindings

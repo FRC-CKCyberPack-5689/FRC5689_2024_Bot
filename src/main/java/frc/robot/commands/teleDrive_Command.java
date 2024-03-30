@@ -11,7 +11,7 @@ import frc.robot.RMap;
 
 public class teleDrive_Command extends Command {
   private double speedF, speedR, speedS;
-  // private double desiredPosition;
+  double headingSetpoint;
 
   public teleDrive_Command() {
     addRequirements(RMap.m_driveTrain_subsystem);
@@ -22,13 +22,16 @@ public class teleDrive_Command extends Command {
     speedF = 0;
     speedR = 0;
     speedS = 0;
+
+    headingSetpoint = RMap.m_driveTrain_subsystem.getHeading();
   }
 
   @Override
   public void execute() {
     speedF = calcuateDriveAxis(-RMap.controller.getLeftY(), speedF);
     speedS = calcuateDriveAxis(RMap.controller.getLeftX(), speedS);
-    speedR = calcuateDriveAxis(RMap.controller.getRightX(), speedR);
+    // speedR = calcuateDriveAxis(RMap.controller.getRightX(), speedR);
+    speedR = thetaDriveController(RMap.controller.getRightX());
 
     RMap.m_driveTrain_subsystem.driveGyro(speedF, speedR, speedS, Rotation2d.fromDegrees(-RMap.gyro.getAngle()));
   }
@@ -63,5 +66,21 @@ public class teleDrive_Command extends Command {
 
     i = Math.copySign(i, input);
     return i;
+  }
+
+  public double thetaDriveController(double userInput) {
+    double rampedMotorDrive = calcuateDriveAxis(userInput, speedR);
+
+    //If user is using stick
+    if (Math.abs(rampedMotorDrive) > 0.0) {
+
+      //If user is trying to turn using the stick then 
+      headingSetpoint = RMap.m_driveTrain_subsystem.getHeading();
+      return rampedMotorDrive;
+    } else {
+      double kP = 0.01;
+      double error = kP * (headingSetpoint - RMap.m_driveTrain_subsystem.getHeading());
+      return error;
+    }
   }
 }
